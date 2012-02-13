@@ -72,9 +72,35 @@ class Heap(object):
                                          
 
 def heap_sort2(seq):
+    """ uses my own heap, which does not work yet
+    """
     h = Heap()
     for item in seq:
         h.insert(item)
+
+def merge(left, right):
+    result = []
+    while left or right:
+        if left and not right:
+            result.append(left.pop())
+        elif right and not left:
+            result.append(right.pop())
+        elif left[-1] >= right[-1]:
+            result.append(left.pop())
+        else:
+            result.append(right.pop())
+    result.reverse()
+    return result
+            
+        
+def merge_sort(seq):
+    if len(seq) <= 1:
+        return seq
+    
+    middle = len(seq) / 2
+    left = merge_sort(seq[:middle])
+    right = merge_sort(seq[middle:])
+    return merge(left, right)
     
 
 seq = [45, 89, 38, 51, 97, 37, 26, 46, 10, 48, 81, 20, 78, 41, 59, 42, 19, 89, 87, 92, 39, 46, 32, 19, 78, 66, 11, 14, 99, 51, 41, 98, 67, 62, 41, 20, 40, 28, 73, 7, 86, 70, 85, 5, 20, 3, 71, 86, 2, 34, 80, 87, 45, 66, 64, 95, 18, 85, 27, 66, 24, 55, 27, 67, 72, 55, 10, 23, 50, 69, 42, 90, 68, 29, 37, 12, 43, 81, 53, 42, 89, 88, 27, 18, 52, 41, 65, 17, 79, 59, 90, 57, 18, 72, 88, 64, 61, 27, 38, 29]
@@ -83,6 +109,7 @@ def test():
     sorted_seq = sorted(seq)
     assert sorted_seq == quick_sort(seq)
     assert sorted_seq == heap_sort(seq)
+    assert sorted_seq == merge_sort(seq)
     
     
 
